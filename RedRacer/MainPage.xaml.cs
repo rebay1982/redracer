@@ -26,5 +26,10 @@ namespace RedRacer
         {
             this.InitializeComponent();
         }
-    }
+
+		private void canvas_Draw(Microsoft.Graphics.Canvas.UI.Xaml.CanvasControl sender, Microsoft.Graphics.Canvas.UI.Xaml.CanvasDrawEventArgs args)
+		{
+
+		}
+	}
 }
