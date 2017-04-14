@@ -23,7 +23,7 @@ namespace RedRacer
   /// </summary>
   public sealed partial class MainPage : Page
   {
-    private readonly IGame game = new Game.RedRacerGame();
+    private readonly IGame gameMngr;
 
     private readonly IInput inputMngr;
     private readonly IRenderer renderMngr;
@@ -34,6 +34,10 @@ namespace RedRacer
     public MainPage()
     {
       this.InitializeComponent();
+
+      // Initialize managers.
+      gameMngr = new RedRacerGame();
+      
       //Run();
       		
     }
@@ -42,7 +46,13 @@ namespace RedRacer
     {
       while (!Quit)
       {
-        game.Update(0);
+        // Manage inputs here.
+
+        // Update the game engine.
+        gameMngr.Update(0);
+
+        // Render the picture
+        renderMngr.Render();
       }
     }
 
