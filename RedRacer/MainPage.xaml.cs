@@ -23,13 +23,13 @@ namespace RedRacer
   /// </summary>
   public sealed partial class MainPage : Page
   {
+    // Assortment of managers.
     private readonly IGameMngr gameMngr;
-
     private readonly IInputMngr inputMngr;
     private readonly IRenderMngr renderMngr;
 
-    private bool Quit = false;
 
+    private bool Quit = false;
 
     public MainPage()
     {
@@ -39,20 +39,59 @@ namespace RedRacer
       gameMngr = new RedRacerGame();
       
       //Run();
-      		
     }
 
+    /// <summary>
+    // Using game loop inspired from
+    // http://gafferongames.com/game-physics/fix-your-timestep/
+    // http://gameprogrammingpatterns.com/game-loop.html
+    /// </summary>
     public void Run()
     {
+
+      // The time step at which we will advance the game update.
+      double time = 0;    // Accumulator of how long the game has been running.
+      const double timeStep = 10;   // MS
+
+      double currentTime = Utils.GetCurrentTimeStamp();
+      double timeAccumulator = 0;   // MS
+
+      // Initial gamestate.
+      IGameState previousState = gameMngr.GetGameState();
+
       while (!Quit)
       {
-        // Manage inputs here.
+        double newTime = Utils.GetCurrentTimeStamp();
+        double frameTime = newTime - currentTime;
 
-        // Update the game engine.
-        gameMngr.Update(0);
+        // Clamp frameTime to 250ms.
+        if (frameTime > 250)
+          frameTime = 250;
+
+        currentTime = newTime;
+        timeAccumulator += frameTime;
+
+        // Update user input state.
+        inputMngr.Update();
+
+        while(timeAccumulator >= timeStep)
+        {
+          // I've got a feeling this extrapolation of states is overkill for the job at hand.
+          previousState = gameMngr.GetGameState();
+          gameMngr.Update(inputMngr.GetInputState(), timeStep);
+
+          time += timeStep;
+          timeAccumulator -= timeStep;
+        }
+
+        double alpha = timeAccumulator / timeStep;
+        IGameState extrapolatedState = gameMngr.ExtrapolateGameState(
+          inputMngr.GetInputState(),
+          previousState,
+          alpha);
 
         // Render the picture
-        renderMngr.Render();
+        renderMngr.Render(extrapolatedState);
       }
     }
 

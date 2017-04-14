@@ -16,9 +16,21 @@ namespace RedRacer.Game
 
     }
  
-    public void Update(int dt)
+    public IGameState Update(IInputState inputState, double timeStep)
     {
-
+      return null;
     }
-	}
+
+    public IGameState ExtrapolateGameState(IInputState inputSate, IGameState previousState, double alphaTime)
+    {
+      // Not into "Fixed update timestep, variable rendering loop" for this game.
+      // return current game state instead.
+      return null;  
+    }
+
+    public IGameState GetGameState()
+    {
+      return null;
+    }
+  }
 }

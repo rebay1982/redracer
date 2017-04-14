@@ -98,6 +98,9 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Game\GameState.cs" />
+    <Compile Include="Game\IGameState.cs" />
+    <Compile Include="Game\IInputState.cs" />
     <Compile Include="Game\RedRacerGame.cs" />
     <Compile Include="Game\IGameMngr.cs" />
     <Compile Include="Game\IInputMngr.cs" />

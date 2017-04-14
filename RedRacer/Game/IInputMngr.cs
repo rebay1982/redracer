@@ -8,5 +8,9 @@ namespace RedRacer.Game
 {
 	interface IInputMngr
 	{
-	}
+
+    void Update();
+
+    IInputState GetInputState();
+  }
 }
