@@ -38,7 +38,7 @@ namespace RedRacer
       // Initialize managers.
       gameMngr = new RedRacerGame();
       
-      Run();
+      //Run();
     }
 
     /// <summary>
