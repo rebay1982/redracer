@@ -8,9 +8,9 @@ namespace RedRacer
 {
   public static class Utils
   {
-    public static void Test1()
+    public static double GetCurrentTimeStamp()
     {
-
+      return (DateTime.UtcNow - new DateTime(1970, 1, 1)).TotalMilliseconds;
     }
   }
 }
