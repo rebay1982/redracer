@@ -38,7 +38,7 @@ namespace RedRacer
       // Initialize managers.
       gameMngr = new RedRacerGame();
       
-      //Run();
+      Run();
     }
 
     /// <summary>
@@ -48,9 +48,6 @@ namespace RedRacer
     /// </summary>
     public void Run()
     {
-
-      // The time step at which we will advance the game update.
-      double time = 0;    // Accumulator of how long the game has been running.
       const double timeStep = 10;   // MS
 
       double currentTime = Utils.GetCurrentTimeStamp();
@@ -80,7 +77,6 @@ namespace RedRacer
           previousState = gameMngr.GetGameState();
           gameMngr.Update(inputMngr.GetInputState(), timeStep);
 
-          time += timeStep;
           timeAccumulator -= timeStep;
         }
 

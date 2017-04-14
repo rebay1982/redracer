@@ -7,30 +7,31 @@ using System.Threading.Tasks;
 namespace RedRacer.Game
 {
 
-    // The game engine.
+  // The game engine.
 	class RedRacerGame : IGameMngr
 	{
+    private readonly RedRacerGamePlayState playState; 
 
 		public RedRacerGame()
 		{
-
+      playState = new RedRacerGamePlayState();
     }
  
     public IGameState Update(IInputState inputState, double timeStep)
     {
-      return null;
+      return playState;
     }
 
     public IGameState ExtrapolateGameState(IInputState inputSate, IGameState previousState, double alphaTime)
     {
       // Not into "Fixed update timestep, variable rendering loop" for this game.
       // return current game state instead.
-      return null;  
+      return playState;  
     }
 
     public IGameState GetGameState()
     {
-      return null;
+      return playState;
     }
   }
 }
