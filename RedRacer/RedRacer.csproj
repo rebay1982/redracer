@@ -99,9 +99,9 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="Game\RedRacerGame.cs" />
-    <Compile Include="Game\IGame.cs" />
-    <Compile Include="Game\IInput.cs" />
-    <Compile Include="Game\IRenderer.cs" />
+    <Compile Include="Game\IGameMngr.cs" />
+    <Compile Include="Game\IInputMngr.cs" />
+    <Compile Include="Game\IRenderMngr.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
@@ -112,7 +112,6 @@
     <AppxManifest Include="Package.appxmanifest">
       <SubType>Designer</SubType>
     </AppxManifest>
-    <None Include="RedRacer_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Properties\Default.rd.xml" />

@@ -23,10 +23,10 @@ namespace RedRacer
   /// </summary>
   public sealed partial class MainPage : Page
   {
-    private readonly IGame gameMngr;
+    private readonly IGameMngr gameMngr;
 
-    private readonly IInput inputMngr;
-    private readonly IRenderer renderMngr;
+    private readonly IInputMngr inputMngr;
+    private readonly IRenderMngr renderMngr;
 
     private bool Quit = false;
 

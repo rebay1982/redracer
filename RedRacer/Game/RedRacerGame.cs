@@ -8,7 +8,7 @@ namespace RedRacer.Game
 {
 
     // The game engine.
-	class RedRacerGame : IGame
+	class RedRacerGame : IGameMngr
 	{
 
 		public RedRacerGame()

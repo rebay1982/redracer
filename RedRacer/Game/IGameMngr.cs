@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace RedRacer.Game
 {
-	interface IGame
+	interface IGameMngr
 	{
 
 

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace RedRacer.Game
 {
-	interface IRenderer
+	interface IRenderMngr
 	{
     void Render();
 	}
