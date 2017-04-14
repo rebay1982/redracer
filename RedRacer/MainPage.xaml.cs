@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RedRacer.Game;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -17,15 +18,33 @@ using Windows.UI.Xaml.Navigation;
 
 namespace RedRacer
 {
-    /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
-    /// </summary>
-    public sealed partial class MainPage : Page
+  /// <summary>
+  /// An empty page that can be used on its own or navigated to within a Frame.
+  /// </summary>
+  public sealed partial class MainPage : Page
+  {
+    private readonly IGame game = new Game.RedRacerGame();
+
+    private readonly IInput inputMngr;
+    private readonly IRenderer renderMngr;
+
+    private bool Quit = false;
+
+
+    public MainPage()
     {
-        public MainPage()
-        {
-            this.InitializeComponent();
-        }
+      this.InitializeComponent();
+      //Run();
+      		
+    }
+
+    public void Run()
+    {
+      while (!Quit)
+      {
+        game.Update(0);
+      }
+    }
 
 		private void canvas_Draw(Microsoft.Graphics.Canvas.UI.Xaml.CanvasControl sender, Microsoft.Graphics.Canvas.UI.Xaml.CanvasDrawEventArgs args)
 		{

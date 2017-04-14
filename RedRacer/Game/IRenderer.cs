@@ -8,5 +8,6 @@ namespace RedRacer.Game
 {
 	interface IRenderer
 	{
+    void Render();
 	}
 }

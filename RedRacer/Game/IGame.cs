@@ -8,5 +8,14 @@ namespace RedRacer.Game
 {
 	interface IGame
 	{
+
+
+    /// <summary>
+    /// Update the game state by dt.
+    /// </summary>
+    /// <param name="dt">Time delta.</param>
+    void Update(int dt);
+
+
 	}
 }
