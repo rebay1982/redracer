@@ -105,6 +105,7 @@
     <Compile Include="Game\IGameMngr.cs" />
     <Compile Include="Game\IInputMngr.cs" />
     <Compile Include="Game\IRenderMngr.cs" />
+    <Compile Include="Game\RedRacerTestRenderer.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>

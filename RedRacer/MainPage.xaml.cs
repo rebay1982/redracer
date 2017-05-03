@@ -1,4 +1,5 @@
-﻿using RedRacer.Game;
+﻿using Microsoft.Graphics.Canvas;
+using RedRacer.Game;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -6,6 +7,7 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -34,7 +36,7 @@ namespace RedRacer
     public MainPage()
     {
       this.InitializeComponent();
-
+      //canvas.ClearColor = Color.FromArgb(255, 0, 0, 0);
       // Initialize managers.
       gameMngr = new RedRacerGame();
       
@@ -93,7 +95,16 @@ namespace RedRacer
 
 		private void canvas_Draw(Microsoft.Graphics.Canvas.UI.Xaml.CanvasControl sender, Microsoft.Graphics.Canvas.UI.Xaml.CanvasDrawEventArgs args)
 		{
+      byte[] imgBytes = new byte[40000];
 
-		}
+      for (int i = 0; i < 40000; ++i)
+      {
+        imgBytes[i] = (byte)((i % 4 == 3) ? 0xFF : 0x00);
+      }
+
+      Color.FromArgb(255, 0, 0, 0);
+      CanvasBitmap bitmap = CanvasBitmap.CreateFromBytes(sender.Device, imgBytes, 100, 100, Windows.Graphics.DirectX.DirectXPixelFormat.B8G8R8A8UIntNormalized);
+      args.DrawingSession.DrawImage(bitmap, 100, 100);
+    }
 	}
 }
