@@ -98,6 +98,8 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Game\AbstractRenderer.cs" />
+    <Compile Include="Game\IRenderer.cs" />
     <Compile Include="Game\RedRacerGamePlayState.cs" />
     <Compile Include="Game\IGameState.cs" />
     <Compile Include="Game\IInputState.cs" />
@@ -105,7 +107,8 @@
     <Compile Include="Game\IGameMngr.cs" />
     <Compile Include="Game\IInputMngr.cs" />
     <Compile Include="Game\IRenderMngr.cs" />
-    <Compile Include="Game\RedRacerTestRenderer.cs" />
+    <Compile Include="Game\RedRacerRenderMngr.cs" />
+    <Compile Include="Game\RedRacerTitleRenderer.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>

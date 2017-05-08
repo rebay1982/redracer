@@ -6,14 +6,37 @@ using System.Threading.Tasks;
 
 namespace RedRacer.Game
 {
-  class RedRacerTitleRenderer : IRenderer
+  class RedRacerTitleRenderer : AbstractRenderer
   {
-    public void RenderToFrameBuffer(byte[] buffer, int height, int width)
+    public RedRacerTitleRenderer() : base()
     {
-      // Render stuff.
+
+
+      Init();
     }
 
-    public void RenterToFrameBuffer(byte[] buffer, int height, int width, IGameState gameState)
+
+    public override void Init()
+    {
+      IsInitialized = true;
+    }
+
+    public override void RenderToFrameBuffer(byte[] buffer, int height, int width)
+    {
+      // Don't render anthing if not initialized.
+      if (IsInitialized)
+      {
+        for (int i = 0; i < height * width; i += 4)
+        {
+          buffer[i] = 0xFF;
+          buffer[i + 1] = 0xFF;
+          buffer[i + 2] = 0x00;
+          buffer[i + 3] = 0x00;
+        }
+      }
+    }
+    
+    public override void RenterToFrameBuffer(byte[] buffer, int height, int width, IGameState gameState)
     {
       RenderToFrameBuffer(buffer, height, width);
     }
