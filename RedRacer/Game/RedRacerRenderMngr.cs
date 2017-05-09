@@ -8,15 +8,22 @@ namespace RedRacer.Game
 {
   class RedRacerRenderMngr : IRenderMngr
   {
-    Dictionary<Guid, IRenderer> Renderers;// = new List<IRenderer>();
+    private Dictionary<Guid, IRenderer> Renderers;
 
     private byte[] ActiveBuffer;
     private byte[] ShadowBuffer;
 
+    public RedRacerRenderMngr()
+    {
+      Renderers = new Dictionary<Guid, IRenderer>();
+      ActiveBuffer = new byte[(320 * 200) << 2];
+      ShadowBuffer = new byte[(320 * 200) << 2];
+    }
+
     // IRenderMngr
     public byte[] GetFrameBuffer()
     {
-      // Don't return the internal FB.  Create a copy -- check how much this costs.
+      // TODO: Don't return the internal FB.  Create a copy -- check how much this costs.
       return ActiveBuffer;
     }
 
@@ -29,7 +36,7 @@ namespace RedRacer.Game
 
       byte[] switchBuffer = ActiveBuffer;
       ActiveBuffer = ShadowBuffer;
-      ShadowBuffer = ActiveBuffer;
+      ShadowBuffer = switchBuffer;
     }
 
     public Guid RegisterRenderer(IRenderer renderer)

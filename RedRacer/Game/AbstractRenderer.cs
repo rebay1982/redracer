@@ -6,11 +6,12 @@ using System.Threading.Tasks;
 
 namespace RedRacer.Game
 {
+  // TODO: Overkill?
   abstract class AbstractRenderer : IRenderer
   {
     public bool IsInitialized { get; protected set; } = false;
 
-    public abstract void Init();
+    protected abstract void Init();
 
     // IRenderer
     public abstract void RenderToFrameBuffer(byte[] buffer, int height, int width);
