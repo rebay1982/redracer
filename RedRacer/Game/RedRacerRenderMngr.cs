@@ -8,35 +8,48 @@ namespace RedRacer.Game
 {
   class RedRacerRenderMngr : IRenderMngr
   {
+    private const int BUFFER_WIDTH = 320;
+    private const int BUFFER_HEIGHT = 200;
+
     private Dictionary<Guid, IRenderer> Renderers;
 
     private byte[] ActiveBuffer;
     private byte[] ShadowBuffer;
 
+    private object syncRoot = new object();
+
     public RedRacerRenderMngr()
     {
       Renderers = new Dictionary<Guid, IRenderer>();
-      ActiveBuffer = new byte[(320 * 200) << 2];
-      ShadowBuffer = new byte[(320 * 200) << 2];
+      ActiveBuffer = new byte[(BUFFER_WIDTH * BUFFER_HEIGHT) << 2];
+      ShadowBuffer = new byte[(BUFFER_WIDTH * BUFFER_HEIGHT) << 2];
     }
 
     // IRenderMngr
     public byte[] GetFrameBuffer()
     {
-      // TODO: Don't return the internal FB.  Create a copy -- check how much this costs.
-      return ActiveBuffer;
+      // TODO: Don't return the internal FB.  Create a copy -- check how much this costs (speed wise).
+      byte[] returnedBuffer = new byte[(BUFFER_WIDTH * BUFFER_HEIGHT) << 2];
+
+      // Lock to avoid it being switched in the middle of copying.
+      lock (syncRoot)
+      {
+        Buffer.BlockCopy(ActiveBuffer, 0, returnedBuffer, 0, ((BUFFER_WIDTH * BUFFER_HEIGHT) << 2));
+      }
+
+      return returnedBuffer;
     }
 
     public void Render(IGameState gameState)
     {
       foreach (IRenderer renderer in Renderers.Values)
       {
-        renderer.RenderToFrameBuffer(ShadowBuffer, 320, 200);
+        renderer.RenderToFrameBuffer(ShadowBuffer, BUFFER_WIDTH, BUFFER_HEIGHT);
       }
 
-      byte[] switchBuffer = ActiveBuffer;
-      ActiveBuffer = ShadowBuffer;
-      ShadowBuffer = switchBuffer;
+      SwitchBuffers();
+
+      // Fire event to notify of new frame buffer ready ?
     }
 
     public Guid RegisterRenderer(IRenderer renderer)
@@ -53,6 +66,16 @@ namespace RedRacer.Game
       Renderers.Remove(guid);
 
       return renderer;
+    }
+
+    private void SwitchBuffers()
+    {
+      lock (syncRoot)
+      {
+        byte[] switchBuffer = ActiveBuffer;
+        ActiveBuffer = ShadowBuffer;
+        ShadowBuffer = switchBuffer;
+      }
     }
   }
 }
