@@ -32,7 +32,7 @@ namespace RedRacer.Game
       byte[] returnedBuffer = new byte[(BUFFER_WIDTH * BUFFER_HEIGHT) << 2];
 
       // Lock to avoid it being switched in the middle of copying.
-      lock (syncRoot)
+      lock (syncRoot) // Maybe not the best of ideas to have the renderer wait on this?
       {
         Buffer.BlockCopy(ActiveBuffer, 0, returnedBuffer, 0, ((BUFFER_WIDTH * BUFFER_HEIGHT) << 2));
       }
@@ -50,6 +50,7 @@ namespace RedRacer.Game
       SwitchBuffers();
 
       // Fire event to notify of new frame buffer ready ?
+
     }
 
     public Guid RegisterRenderer(IRenderer renderer)
