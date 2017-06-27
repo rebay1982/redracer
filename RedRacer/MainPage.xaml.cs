@@ -116,20 +116,10 @@ namespace RedRacer
 
 		private void canvas_Draw(Microsoft.Graphics.Canvas.UI.Xaml.CanvasControl sender, Microsoft.Graphics.Canvas.UI.Xaml.CanvasDrawEventArgs args)
 		{
-      byte[] imgBytes /*= new byte[256000];*/ = renderMngr.GetFrameBuffer();
+      byte[] imgBytes = renderMngr.GetFrameBuffer();
 
-      //for (int i = 0; i < 200 * 320; i += 4)
-      //{
-      //  imgBytes[i] = 0x00;
-      //  imgBytes[i + 1] = 0xFF;
-      //  imgBytes[i + 2] = 0x00;
-      //  imgBytes[i + 3] = 0xFF;
-      //}
-
-
-      //Color.FromArgb(255, 0, 0, 0);
-      CanvasBitmap bitmap = CanvasBitmap.CreateFromBytes(sender.Device, imgBytes, 320, 200, Windows.Graphics.DirectX.DirectXPixelFormat.B8G8R8A8UIntNormalized);
-      args.DrawingSession.DrawImage(bitmap, 100, 100);
+      CanvasBitmap bitmap = CanvasBitmap.CreateFromBytes(sender.Device, imgBytes, 640, 480, Windows.Graphics.DirectX.DirectXPixelFormat.B8G8R8A8UIntNormalized);
+      args.DrawingSession.DrawImage(bitmap, 0, 0);
     }
 	}
 }

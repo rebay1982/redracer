@@ -16,8 +16,8 @@ namespace RedRacer.Game
 
 
     // PRIVATE
-    private const int BUFFER_WIDTH = 320;
-    private const int BUFFER_HEIGHT = 200;
+    private const int BUFFER_WIDTH = 640;
+    private const int BUFFER_HEIGHT = 480;
 
     private Dictionary<Guid, IRenderer> Renderers;
 

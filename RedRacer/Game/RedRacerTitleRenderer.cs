@@ -20,26 +20,30 @@ namespace RedRacer.Game
       IsInitialized = true;
     }
 
-    public override void RenderToFrameBuffer(byte[] buffer, int height, int width)
+    public override void RenderToFrameBuffer(byte[] buffer, int width, int height)
     {
-      // Don't render anthing if not initialized.
+      // Don't render anything if not initialized.
       if (IsInitialized)
       {
-        for (int i = 0; i < height * width; i += 4)
+        for (int x = 0; x < width; x++)
         {
-          buffer[i] = color;
-          buffer[i + 1] = color;
-          buffer[i + 2] = color;
-          buffer[i + 3] = 0xFF;
+          for (int y = 0; y < height; y++)
+          {
+            int i = ((x * height) + y) << 2;
+            buffer[i] = color;
+            buffer[i + 1] = color;
+            buffer[i + 2] = color;
+            buffer[i + 3] = 0xFF;
+          }
         }
 
-        color += 0x01;
+        color++;
       }
     }
     
-    public override void RenterToFrameBuffer(byte[] buffer, int height, int width, IGameState gameState)
+    public override void RenterToFrameBuffer(byte[] buffer, int width, int height, IGameState gameState)
     {
-      RenderToFrameBuffer(buffer, height, width);
+      RenderToFrameBuffer(buffer, width, height);
     }
   }
 }
