@@ -6,8 +6,16 @@ using System.Threading.Tasks;
 
 namespace RedRacer.Game
 {
+  public delegate void RendererFrameReady();
+
   class RedRacerRenderMngr : IRenderMngr
   {
+    // PUBLIC
+    public event RendererFrameReady FrameReadyEvent;
+
+
+
+    // PRIVATE
     private const int BUFFER_WIDTH = 320;
     private const int BUFFER_HEIGHT = 200;
 
@@ -18,6 +26,9 @@ namespace RedRacer.Game
 
     private object syncRoot = new object();
 
+
+
+    // PUBLIC
     public RedRacerRenderMngr()
     {
       Renderers = new Dictionary<Guid, IRenderer>();
@@ -49,8 +60,8 @@ namespace RedRacer.Game
 
       SwitchBuffers();
 
-      // Fire event to notify of new frame buffer ready ?
-
+      // Fire event to notify of new frame buffer ready if someone is listening.
+      FrameReadyEvent?.Invoke();
     }
 
     public Guid RegisterRenderer(IRenderer renderer)
@@ -69,6 +80,9 @@ namespace RedRacer.Game
       return renderer;
     }
 
+
+
+    // PRIVATE
     private void SwitchBuffers()
     {
       lock (syncRoot)

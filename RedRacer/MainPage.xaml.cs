@@ -37,15 +37,22 @@ namespace RedRacer
     public MainPage()
     {
       this.InitializeComponent();
-      //canvas.ClearColor = Color.FromArgb(255, 0, 0, 0);
+
       // Initialize managers.
       gameMngr = new RedRacerGame();
       renderMngr = new RedRacerRenderMngr();
 
       renderMngr.RegisterRenderer(new RedRacerTitleRenderer());
 
+      renderMngr.FrameReadyEvent += new RendererFrameReady(FrameReady);
+
       RunTest();
-       //Run();
+      //Run();
+    }
+
+    public void FrameReady()
+    {
+      canvas.Invalidate();
     }
 
     public async void RunTest()
@@ -53,7 +60,7 @@ namespace RedRacer
       while (!Quit)
       {
         renderMngr.Render(null);
-        await Task.Delay(TimeSpan.FromMilliseconds(100));
+        await Task.Delay(TimeSpan.FromMilliseconds(1));
       }
     }
 
@@ -109,10 +116,18 @@ namespace RedRacer
 
 		private void canvas_Draw(Microsoft.Graphics.Canvas.UI.Xaml.CanvasControl sender, Microsoft.Graphics.Canvas.UI.Xaml.CanvasDrawEventArgs args)
 		{
-      byte[] imgBytes = renderMngr.GetFrameBuffer();
+      byte[] imgBytes /*= new byte[256000];*/ = renderMngr.GetFrameBuffer();
 
-     
-      Color.FromArgb(255, 0, 0, 0);
+      //for (int i = 0; i < 200 * 320; i += 4)
+      //{
+      //  imgBytes[i] = 0x00;
+      //  imgBytes[i + 1] = 0xFF;
+      //  imgBytes[i + 2] = 0x00;
+      //  imgBytes[i + 3] = 0xFF;
+      //}
+
+
+      //Color.FromArgb(255, 0, 0, 0);
       CanvasBitmap bitmap = CanvasBitmap.CreateFromBytes(sender.Device, imgBytes, 320, 200, Windows.Graphics.DirectX.DirectXPixelFormat.B8G8R8A8UIntNormalized);
       args.DrawingSession.DrawImage(bitmap, 100, 100);
     }

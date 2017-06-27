@@ -8,7 +8,6 @@ namespace RedRacer.Game
 {
   class RedRacerTitleRenderer : AbstractRenderer
   {
-
     private byte color = 0x00;
 
     public RedRacerTitleRenderer() : base()
@@ -28,10 +27,10 @@ namespace RedRacer.Game
       {
         for (int i = 0; i < height * width; i += 4)
         {
-          buffer[i] = 0xFF;
+          buffer[i] = color;
           buffer[i + 1] = color;
-          buffer[i + 2] = 0x00;
-          buffer[i + 3] = 0x00;
+          buffer[i + 2] = color;
+          buffer[i + 3] = 0xFF;
         }
 
         color += 0x01;

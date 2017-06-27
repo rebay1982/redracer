@@ -8,6 +8,8 @@ namespace RedRacer.Game
 {
 	interface IRenderMngr
   {
+    event RendererFrameReady FrameReadyEvent;
+
     byte[] GetFrameBuffer();
     void Render(IGameState gameState);
 
@@ -16,7 +18,5 @@ namespace RedRacer.Game
 
     // Will unregister a renderer from the rendering queue.
     IRenderer UnregisterRenderer(Guid guid);
-
-
 	}
 }
