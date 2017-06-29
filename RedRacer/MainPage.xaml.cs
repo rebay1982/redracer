@@ -60,7 +60,7 @@ namespace RedRacer
       while (!Quit)
       {
         renderMngr.Render(null);
-        await Task.Delay(TimeSpan.FromMilliseconds(1));
+        await Task.Delay(TimeSpan.FromMilliseconds(5));
       }
     }
 
