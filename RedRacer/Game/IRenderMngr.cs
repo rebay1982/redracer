@@ -8,8 +8,6 @@ namespace RedRacer.Game
 {
 	interface IRenderMngr
   {
-    event RendererFrameReady FrameReadyEvent;
-
     byte[] GetFrameBuffer();
     void Render(IGameState gameState);
 

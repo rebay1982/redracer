@@ -43,18 +43,11 @@ namespace RedRacer
       renderMngr = new RedRacerRenderMngr();
 
       renderMngr.RegisterRenderer(new RedRacerTitleRenderer());
-
-      renderMngr.FrameReadyEvent += new RendererFrameReady(FrameReady);
-
+      
       RunTest();
       //Run();
     }
-
-    public void FrameReady()
-    {
-      canvas.Invalidate();
-    }
-
+    
     public async void RunTest()
     {
       while (!Quit)
@@ -114,12 +107,18 @@ namespace RedRacer
       }
     }
 
-		private void canvas_Draw(Microsoft.Graphics.Canvas.UI.Xaml.CanvasControl sender, Microsoft.Graphics.Canvas.UI.Xaml.CanvasDrawEventArgs args)
-		{
+    private void CanvasAnimatedControl_Draw(Microsoft.Graphics.Canvas.UI.Xaml.ICanvasAnimatedControl sender, Microsoft.Graphics.Canvas.UI.Xaml.CanvasAnimatedDrawEventArgs args)
+    {
       byte[] imgBytes = renderMngr.GetFrameBuffer();
 
       CanvasBitmap bitmap = CanvasBitmap.CreateFromBytes(sender.Device, imgBytes, 640, 480, Windows.Graphics.DirectX.DirectXPixelFormat.B8G8R8A8UIntNormalized);
       args.DrawingSession.DrawImage(bitmap, 0, 0);
     }
-	}
+
+    private void CanvasAnimatedControl_CreateResources(Microsoft.Graphics.Canvas.UI.Xaml.CanvasAnimatedControl sender, Microsoft.Graphics.Canvas.UI.CanvasCreateResourcesEventArgs args)
+    {
+      // Load stuff here ?
+
+    }
+  }
 }

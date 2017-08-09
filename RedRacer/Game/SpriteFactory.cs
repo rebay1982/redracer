@@ -47,33 +47,33 @@ namespace RedRacer.Game
     // make everything async......
     private async void RetrieveBitmap(string fileName, byte[] dst)
     {
-      FileStream fStream = File.OpenRead(ASSET_PATH + fileName);
+      //FileStream fStream = File.OpenRead(ASSET_PATH + fileName);
 
-      StorageFile sf = await StorageFile.GetFileFromPathAsync(ASSET_PATH + fileName);
+      //StorageFile sf = await StorageFile.GetFileFromPathAsync(ASSET_PATH + fileName);
 
-      using (IRandomAccessStream stream = await sf.OpenAsync(FileAccessMode.Read))
-      {
-        BitmapDecoder decoder = await BitmapDecoder.C(stream);
+      //using (IRandomAccessStream stream = await sf.OpenAsync(FileAccessMode.Read))
+      //{
+      //  BitmapDecoder decoder = await BitmapDecoder.C(stream);
         
-        // Scale image to appropriate size 
-        BitmapTransform transform = new BitmapTransform()
-        {
-          ScaledWidth = 640,
-          ScaledHeight = 480
-        };
-        PixelDataProvider pixelData = await decoder.GetPixelDataAsync(
-            BitmapPixelFormat.Bgra8, // WriteableBitmap uses BGRA format 
-            BitmapAlphaMode.Straight,
-            transform,
-            ExifOrientationMode.IgnoreExifOrientation, // This sample ignores Exif orientation 
-            ColorManagementMode.DoNotColorManage
-        );
+      //  // Scale image to appropriate size 
+      //  BitmapTransform transform = new BitmapTransform()
+      //  {
+      //    ScaledWidth = 640,
+      //    ScaledHeight = 480
+      //  };
+      //  PixelDataProvider pixelData = await decoder.GetPixelDataAsync(
+      //      BitmapPixelFormat.Bgra8, // WriteableBitmap uses BGRA format 
+      //      BitmapAlphaMode.Straight,
+      //      transform,
+      //      ExifOrientationMode.IgnoreExifOrientation, // This sample ignores Exif orientation 
+      //      ColorManagementMode.DoNotColorManage
+      //  );
 
-        // An array containing the decoded image data, which could be modified before being displayed 
-        byte[] sourcePixels = pixelData.DetachPixelData();
+      //  // An array containing the decoded image data, which could be modified before being displayed 
+      //  byte[] sourcePixels = pixelData.DetachPixelData();
 
-        System.Buffer.BlockCopy(sourcePixels, 0, dst, 0, sourcePixels.Length);
-      }
+      //  System.Buffer.BlockCopy(sourcePixels, 0, dst, 0, sourcePixels.Length);
+      //}
     }
   }
 }

@@ -10,12 +10,6 @@ namespace RedRacer.Game
 
   class RedRacerRenderMngr : IRenderMngr
   {
-    // PUBLIC
-    public event RendererFrameReady FrameReadyEvent;
-
-
-
-    // PRIVATE
     private const int BUFFER_WIDTH = 640;
     private const int BUFFER_HEIGHT = 480;
 
@@ -28,7 +22,6 @@ namespace RedRacer.Game
 
 
 
-    // PUBLIC
     public RedRacerRenderMngr()
     {
       Renderers = new Dictionary<Guid, IRenderer>();
@@ -59,9 +52,6 @@ namespace RedRacer.Game
       }
 
       SwitchBuffers();
-
-      // Fire event to notify of new frame buffer ready if someone is listening.
-      FrameReadyEvent?.Invoke();
     }
 
     public Guid RegisterRenderer(IRenderer renderer)

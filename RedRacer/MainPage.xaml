@@ -9,6 +9,6 @@
   mc:Ignorable="d" Width="640" Height="480" HorizontalContentAlignment="Left" VerticalContentAlignment="Top" MinWidth="640" MinHeight="480" HorizontalAlignment="Left" VerticalAlignment="Top" BorderThickness="0">
 
   <Grid Background="Black" BorderThickness="0" Margin="0,0,0,0" MinWidth="640" MinHeight="480">
-    <canvas:CanvasControl x:Name="canvas" Draw="canvas_Draw" Background="Black" Height="480" VerticalAlignment="Top"/>
+    <canvas:CanvasAnimatedControl Draw="CanvasAnimatedControl_Draw" CreateResources="CanvasAnimatedControl_CreateResources"/>
   </Grid>
 </Page>
