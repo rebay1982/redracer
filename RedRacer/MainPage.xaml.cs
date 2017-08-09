@@ -117,7 +117,14 @@ namespace RedRacer
 
     private void CanvasAnimatedControl_CreateResources(Microsoft.Graphics.Canvas.UI.Xaml.CanvasAnimatedControl sender, Microsoft.Graphics.Canvas.UI.CanvasCreateResourcesEventArgs args)
     {
-      // Load stuff here ?
+      // Track async method while loading sprites here.
+      args.TrackAsyncAction(LoadResourcesAsync(sender).AsAsyncAction());
+    }
+
+    private async Task LoadResourcesAsync(Microsoft.Graphics.Canvas.ICanvasResourceCreator sender)
+    {
+      // Create and load all sprites here ?
+
 
     }
   }
