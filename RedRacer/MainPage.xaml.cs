@@ -30,6 +30,7 @@ namespace RedRacer
     private readonly IGameMngr gameMngr;
     private readonly IInputMngr inputMngr;
     private readonly IRenderMngr renderMngr;
+    private readonly SpriteFactory spriteFactory;
 
 
     private bool Quit = false;
@@ -41,6 +42,7 @@ namespace RedRacer
       // Initialize managers.
       gameMngr = new RedRacerGame();
       renderMngr = new RedRacerRenderMngr();
+      spriteFactory = SpriteFactory.GetInstance();
 
       renderMngr.RegisterRenderer(new RedRacerTitleRenderer());
       
@@ -124,8 +126,9 @@ namespace RedRacer
     private async Task LoadResourcesAsync(Microsoft.Graphics.Canvas.ICanvasResourceCreator sender)
     {
       // Create and load all sprites here ?
+      //var sprite = await CanvasBitmap.LoadAsync(sender, "RedRacer.png");
 
-
+      spriteFactory.GetSpriteFromFile("RedRacer.png");
     }
   }
 }

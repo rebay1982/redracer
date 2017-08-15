@@ -9,10 +9,17 @@ namespace RedRacer.Game
 {
   class SpriteFactory
   {
-    private const string ASSET_PATH = ".\\Assets\\GameAssets\\";
+    private readonly string ASSET_PATH;
 
     private static SpriteFactory Instance;
     private Dictionary<string, Sprite> SpriteCache = new Dictionary<string, Sprite>();
+
+    private SpriteFactory()
+    {
+      ASSET_PATH =
+        Windows.ApplicationModel.Package.Current.InstalledLocation.Path
+        + "\\Assets\\GameAssets\\";
+    }
 
     // Singleton.
     public static SpriteFactory GetInstance()
@@ -31,13 +38,13 @@ namespace RedRacer.Game
       if (!SpriteCache.ContainsKey(fileName))
       {
 
+        // Prep the output array and load the bitmap data into it.
         byte[] bitmapPixels = new byte[(640 * 480) << 2];
+        
+        RetrieveBitmap(fileName, bitmapPixels);
 
-
-        //await RetrieveBitmap(fileName, bitmapPixels);
-
-        // Load the bitmap.
-        this.SpriteCache.Add(fileName, new Sprite(10, 10, new byte[100]));
+        // Cache the sprite.
+        this.SpriteCache.Add(fileName, new Sprite(640, 480, bitmapPixels));
       }
 
       return SpriteCache[fileName];
@@ -47,33 +54,31 @@ namespace RedRacer.Game
     // make everything async......
     private async void RetrieveBitmap(string fileName, byte[] dst)
     {
-      //FileStream fStream = File.OpenRead(ASSET_PATH + fileName);
+      StorageFile sf = await StorageFile.GetFileFromPathAsync(ASSET_PATH + fileName);
+      
+      using (IRandomAccessStream stream = await sf.OpenAsync(FileAccessMode.Read))
+      {
+        BitmapDecoder decoder = await BitmapDecoder.CreateAsync(stream);
 
-      //StorageFile sf = await StorageFile.GetFileFromPathAsync(ASSET_PATH + fileName);
+        // Scale image to appropriate size 
+        BitmapTransform transform = new BitmapTransform()
+        {
+          ScaledWidth = 640,
+          ScaledHeight = 480
+        };
+        PixelDataProvider pixelData = await decoder.GetPixelDataAsync(
+            BitmapPixelFormat.Bgra8, // WriteableBitmap uses BGRA format 
+            BitmapAlphaMode.Straight,
+            transform,
+            ExifOrientationMode.IgnoreExifOrientation, // This sample ignores Exif orientation 
+            ColorManagementMode.DoNotColorManage
+        );
 
-      //using (IRandomAccessStream stream = await sf.OpenAsync(FileAccessMode.Read))
-      //{
-      //  BitmapDecoder decoder = await BitmapDecoder.C(stream);
-        
-      //  // Scale image to appropriate size 
-      //  BitmapTransform transform = new BitmapTransform()
-      //  {
-      //    ScaledWidth = 640,
-      //    ScaledHeight = 480
-      //  };
-      //  PixelDataProvider pixelData = await decoder.GetPixelDataAsync(
-      //      BitmapPixelFormat.Bgra8, // WriteableBitmap uses BGRA format 
-      //      BitmapAlphaMode.Straight,
-      //      transform,
-      //      ExifOrientationMode.IgnoreExifOrientation, // This sample ignores Exif orientation 
-      //      ColorManagementMode.DoNotColorManage
-      //  );
+        // An array containing the decoded image data, which could be modified before being displayed 
+        byte[] sourcePixels = pixelData.DetachPixelData();
 
-      //  // An array containing the decoded image data, which could be modified before being displayed 
-      //  byte[] sourcePixels = pixelData.DetachPixelData();
-
-      //  System.Buffer.BlockCopy(sourcePixels, 0, dst, 0, sourcePixels.Length);
-      //}
+        System.Buffer.BlockCopy(sourcePixels, 0, dst, 0, sourcePixels.Length);
+      }
     }
   }
 }
