@@ -44,7 +44,7 @@ namespace RedRacer.Game
         RetrieveBitmap(fileName, bitmapPixels);
 
         // Cache the sprite.
-        this.SpriteCache.Add(fileName, new Sprite(640, 480, bitmapPixels));
+        SpriteCache.Add(fileName, new Sprite(640, 480, bitmapPixels));
       }
 
       return SpriteCache[fileName];

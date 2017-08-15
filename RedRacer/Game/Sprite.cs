@@ -19,10 +19,12 @@ namespace RedRacer.Game
 
     public Sprite(int width, int height, byte[] spriteData)
     {
-      this.Width = width;
-      this.Height = height;
+      int dataSize = (width * height) << 2;
+      Width = width;
+      Height = height;
+      SpriteData = new byte[dataSize];
 
-      Buffer.BlockCopy(spriteData, 0, this.SpriteData, 0, ((width * height) << 2));
+      Buffer.BlockCopy(spriteData, 0, SpriteData, 0, ((width * height) << 2));
     }
   }
 }
