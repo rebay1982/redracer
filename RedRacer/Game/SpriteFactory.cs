@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading.Tasks;
 using Windows.Graphics.Imaging;
 using Windows.Storage;
 using Windows.Storage.Streams;
@@ -32,27 +33,28 @@ namespace RedRacer.Game
       return Instance;
     }
     
-    public Sprite GetSpriteFromFile(string fileName)
+    public Sprite GetSprite(string fileName)
     {
-      // If we don't already have the sprite in cache, load it.
+      return SpriteCache[fileName];
+    }
+
+    public async Task LoadSpriteFromFile(string fileName)
+    {
+      // Don't overwrite what's in the cache.
       if (!SpriteCache.ContainsKey(fileName))
       {
 
         // Prep the output array and load the bitmap data into it.
         byte[] bitmapPixels = new byte[(640 * 480) << 2];
         
-        RetrieveBitmap(fileName, bitmapPixels);
+        await RetrieveBitmap(fileName, bitmapPixels);
 
         // Cache the sprite.
         SpriteCache.Add(fileName, new Sprite(640, 480, bitmapPixels));
       }
-
-      return SpriteCache[fileName];
     }
 
-    // TODO: Not sure about this method's performance and the fact that we have to 
-    // make everything async......
-    private async void RetrieveBitmap(string fileName, byte[] dst)
+    private async Task RetrieveBitmap(string fileName, byte[] dst)
     {
       StorageFile sf = await StorageFile.GetFileFromPathAsync(ASSET_PATH + fileName);
       

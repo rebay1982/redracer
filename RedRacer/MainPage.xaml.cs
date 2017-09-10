@@ -44,7 +44,6 @@ namespace RedRacer
       renderMngr = new RedRacerRenderMngr();
       spriteFactory = SpriteFactory.GetInstance();
 
-      renderMngr.RegisterRenderer(new RedRacerTitleRenderer());
       
       RunTest();
       //Run();
@@ -125,10 +124,15 @@ namespace RedRacer
 
     private async Task LoadResourcesAsync(Microsoft.Graphics.Canvas.ICanvasResourceCreator sender)
     {
-      // Create and load all sprites here ?
-      //var sprite = await CanvasBitmap.LoadAsync(sender, "RedRacer.png");
+      await spriteFactory.LoadSpriteFromFile("RedRacer.png");
 
-      spriteFactory.GetSpriteFromFile("RedRacer.png");
+      // TODO: Sloppy logic, fix this.
+      initRenderers();
+    }
+
+    private void initRenderers()
+    {
+      renderMngr.RegisterRenderer(new RedRacerTitleRenderer());
     }
   }
 }
