@@ -2,6 +2,7 @@
 using RedRacer.Game;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -30,10 +31,12 @@ namespace RedRacer
     private readonly IGameMngr gameMngr;
     private readonly IInputMngr inputMngr;
     private readonly IRenderMngr renderMngr;
+    private readonly IDiagnosticRenderMngr diagRenderMngr;
     private readonly SpriteFactory spriteFactory;
 
 
     private bool Quit = false;
+    private long LastFrameRenderTime = 0L;
 
     public MainPage()
     {
@@ -41,7 +44,10 @@ namespace RedRacer
 
       // Initialize managers.
       gameMngr = new RedRacerGame();
-      renderMngr = new RedRacerRenderMngr();
+
+      var rMngr = new RedRacerRenderMngr();
+      renderMngr = rMngr;
+      diagRenderMngr = rMngr;
       spriteFactory = SpriteFactory.GetInstance();
 
       
@@ -53,7 +59,7 @@ namespace RedRacer
     {
       while (!Quit)
       {
-        renderMngr.Render(null);
+        LastFrameRenderTime = diagRenderMngr.TimedRender(null);
         await Task.Delay(TimeSpan.FromMilliseconds(5));
       }
     }
@@ -110,10 +116,15 @@ namespace RedRacer
 
     private void CanvasAnimatedControl_Draw(Microsoft.Graphics.Canvas.UI.Xaml.ICanvasAnimatedControl sender, Microsoft.Graphics.Canvas.UI.Xaml.CanvasAnimatedDrawEventArgs args)
     {
+      Stopwatch rendersw = Stopwatch.StartNew();
       byte[] imgBytes = renderMngr.GetFrameBuffer();
+      rendersw.Stop();
 
       CanvasBitmap bitmap = CanvasBitmap.CreateFromBytes(sender.Device, imgBytes, 640, 480, Windows.Graphics.DirectX.DirectXPixelFormat.B8G8R8A8UIntNormalized);
       args.DrawingSession.DrawImage(bitmap, 0, 0);
+
+      args.DrawingSession.DrawText("GetFrameBuffer time: " + rendersw.ElapsedMilliseconds.ToString(), 0, 0, Colors.White);
+      args.DrawingSession.DrawText("LastFrameRenderTime: " + LastFrameRenderTime.ToString(), 0, 20, Colors.White);
     }
 
     private void CanvasAnimatedControl_CreateResources(Microsoft.Graphics.Canvas.UI.Xaml.CanvasAnimatedControl sender, Microsoft.Graphics.Canvas.UI.CanvasCreateResourcesEventArgs args)
@@ -124,9 +135,10 @@ namespace RedRacer
 
     private async Task LoadResourcesAsync(Microsoft.Graphics.Canvas.ICanvasResourceCreator sender)
     {
+      // Wait to load every needed sprite or else renderers break in their init (they look for the file in memory).
       await spriteFactory.LoadSpriteFromFile("RedRacer.png");
 
-      // TODO: Sloppy logic, fix this.
+      // TODO: Sloppy logic, fix this -- see above comment.
       initRenderers();
     }
 

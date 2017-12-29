@@ -99,6 +99,7 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="Game\AbstractRenderer.cs" />
+    <Compile Include="Game\IDiagnosticRenderMngr.cs" />
     <Compile Include="Game\IRenderer.cs" />
     <Compile Include="Game\RedRacerGamePlayState.cs" />
     <Compile Include="Game\IGameState.cs" />

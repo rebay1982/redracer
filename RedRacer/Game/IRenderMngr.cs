@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace RedRacer.Game
 {
@@ -10,7 +6,7 @@ namespace RedRacer.Game
   {
     byte[] GetFrameBuffer();
     void Render(IGameState gameState);
-
+ 
     // Will register the renderer in the rendering queue and return a renderer Id?
     Guid RegisterRenderer(IRenderer renderer);
 

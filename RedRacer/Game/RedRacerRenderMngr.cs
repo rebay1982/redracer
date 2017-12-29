@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,7 +9,7 @@ namespace RedRacer.Game
 {
   public delegate void RendererFrameReady();
 
-  class RedRacerRenderMngr : IRenderMngr
+  class RedRacerRenderMngr : IRenderMngr, IDiagnosticRenderMngr
   {
     private const int BUFFER_WIDTH = 640;
     private const int BUFFER_HEIGHT = 480;
@@ -70,6 +71,16 @@ namespace RedRacer.Game
       return renderer;
     }
 
+    // IDiagnosticRenderMngr
+    public long TimedRender(IGameState gameState)
+    {
+      Stopwatch renderTime = Stopwatch.StartNew();
+
+      Render(gameState);
+
+      renderTime.Stop();
+      return renderTime.ElapsedMilliseconds;
+    }
 
 
     // PRIVATE
