@@ -23,20 +23,18 @@ namespace RedRacer.Game
     {
       if (IsInitialized)
       {
-        {
-          // Good only if sprite is the same width as buffer.
-          Buffer.BlockCopy(
-            TitleScreen.SpriteData,
-            0,
-            buffer,
-            0,
-            (TitleScreen.Width * TitleScreen.Height) << 2);
+        // Good only if sprite is the same width as buffer.
+        Buffer.BlockCopy(
+          TitleScreen.SpriteData,
+          0,
+          buffer,
+          0,
+          (TitleScreen.Width * TitleScreen.Height) << 2);
 
-        }
       }
     }
     
-    public override void RenterToFrameBuffer(byte[] buffer, int width, int height, IGameState gameState)
+    public override void RenderToFrameBuffer(byte[] buffer, int width, int height, IGameState gameState)
     {
       RenderToFrameBuffer(buffer, width, height);
     }

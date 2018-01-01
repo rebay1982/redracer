@@ -49,7 +49,7 @@ namespace RedRacer.Game
     {
       foreach (IRenderer renderer in Renderers.Values)
       {
-        renderer.RenderToFrameBuffer(ShadowBuffer, BUFFER_WIDTH, BUFFER_HEIGHT);
+        renderer.RenderToFrameBuffer(ShadowBuffer, BUFFER_WIDTH, BUFFER_HEIGHT, gameState);
       }
 
       SwitchBuffers();

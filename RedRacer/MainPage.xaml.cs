@@ -125,6 +125,8 @@ namespace RedRacer
     {
       // Wait to load every needed sprite or else renderers break in their init (they look for the file in memory).
       await spriteFactory.LoadSpriteFromFile("RedRacer.png");
+      await spriteFactory.LoadSpriteFromFile("Road.png");
+      await spriteFactory.LoadSpriteFromFile("RoadDark.png");
 
       // TODO: Sloppy logic, fix this -- see above comment.
       initRenderers();
@@ -132,7 +134,7 @@ namespace RedRacer
 
     private void initRenderers()
     {
-      renderMngr.RegisterRenderer(new RedRacerTitleRenderer());
+      renderMngr.RegisterRenderer(new RedRacerRoadRenderer());
     }
   }
 }

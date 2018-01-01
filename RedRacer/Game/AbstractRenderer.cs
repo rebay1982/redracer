@@ -15,6 +15,6 @@ namespace RedRacer.Game
 
     // IRenderer
     public abstract void RenderToFrameBuffer(byte[] buffer, int width, int height);
-    public abstract void RenterToFrameBuffer(byte[] buffer, int width, int height, IGameState gameState);
+    public abstract void RenderToFrameBuffer(byte[] buffer, int width, int height, IGameState gameState);
   }
 }

@@ -4,6 +4,9 @@ namespace RedRacer.Game
 {
   class RedRacerRoadRenderer : AbstractRenderer
   {
+    private Sprite Road;
+    private Sprite RoadDark;
+
 
     public RedRacerRoadRenderer() : base()
     {
@@ -12,6 +15,9 @@ namespace RedRacer.Game
 
     protected override void Init()
     {
+      Road = SpriteFactory.GetInstance().GetSprite("Road.png");
+      RoadDark = SpriteFactory.GetInstance().GetSprite("RoadDark.png");
+
       // Nothing to initialize.
       IsInitialized = true;
     }
@@ -21,12 +27,30 @@ namespace RedRacer.Game
       throw new NotImplementedException();
     }
 
-    public override void RenterToFrameBuffer(byte[] buffer, int width, int height, IGameState gameState)
+    public override void RenderToFrameBuffer(byte[] buffer, int width, int height, IGameState gameState)
     {
       if (IsInitialized)
       {
-        // Render the road here.
 
+        Boolean isDarkLine = false;
+        for (int z = 480; z > 280; z -= 20)
+        {
+          byte colorFilter = isDarkLine ? (byte)0x0F : (byte)0xFF;
+
+
+
+
+          isDarkLine = !isDarkLine;
+        }
+
+
+        // Render the road here.
+        Buffer.BlockCopy(
+          Road.SpriteData,
+          0,
+          buffer,
+          0,
+          (Road.Width * Road.Height) << 2);
       }
     }
   }

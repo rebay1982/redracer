@@ -9,6 +9,6 @@ namespace RedRacer.Game
   interface IRenderer
   {
     void RenderToFrameBuffer(byte[] buffer, int height, int width);
-    void RenterToFrameBuffer(byte[] buffer, int height, int width, IGameState gameState);
+    void RenderToFrameBuffer(byte[] buffer, int height, int width, IGameState gameState);
   }
 }
