@@ -6,7 +6,7 @@ namespace RedRacer.Game
   {
     private Sprite Road;
     private Sprite RoadDark;
-
+    byte[][] RoadData = new byte[2][];
 
     public RedRacerRoadRenderer() : base()
     {
@@ -17,6 +17,9 @@ namespace RedRacer.Game
     {
       Road = SpriteFactory.GetInstance().GetSprite("Road.png");
       RoadDark = SpriteFactory.GetInstance().GetSprite("RoadDark.png");
+
+      RoadData[0] = Road.SpriteData;
+      RoadData[1] = RoadDark.SpriteData;
 
       // Nothing to initialize.
       IsInitialized = true;
@@ -32,25 +35,27 @@ namespace RedRacer.Game
       if (IsInitialized)
       {
 
-        Boolean isDarkLine = false;
+        int paletIndex = 0;
         for (int z = 480; z > 280; z -= 20)
         {
-          byte colorFilter = isDarkLine ? (byte)0x0F : (byte)0xFF;
+          int gfxDataOffset = ((z - 20) * Road.Width) << 2;
 
-
-
-
-          isDarkLine = !isDarkLine;
+          Buffer.BlockCopy(
+            RoadData[++paletIndex & 0x01],
+            gfxDataOffset,
+            buffer,
+            gfxDataOffset,
+            (20 * Road.Width) << 2);
         }
 
 
-        // Render the road here.
-        Buffer.BlockCopy(
-          Road.SpriteData,
-          0,
-          buffer,
-          0,
-          (Road.Width * Road.Height) << 2);
+        //// Render the road here.
+        //Buffer.BlockCopy(
+        //  Road.SpriteData,
+        //  0,
+        //  buffer,
+        //  0,
+        //  (Road.Width * Road.Height) << 2);
       }
     }
   }
