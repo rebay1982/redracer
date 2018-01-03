@@ -34,18 +34,25 @@ namespace RedRacer.Game
     {
       if (IsInitialized)
       {
+        // Will need to dehardcode this stuff.
+        int paletteIndex = 0;
+        int z = 0;
+        int y = 480;
 
-        int paletIndex = 0;
-        for (int z = 480; z > 280; z -= 20)
+
+        while (y > 280)
         {
-          int gfxDataOffset = ((z - 20) * Road.Width) << 2;
+          int gfxDataOffset = ((y - (20 - z)) * Road.Width) << 2;
 
           Buffer.BlockCopy(
-            RoadData[++paletIndex & 0x01],
+            RoadData[++paletteIndex & 0x01],
             gfxDataOffset,
             buffer,
             gfxDataOffset,
-            (20 * Road.Width) << 2);
+            ((20 - z) * Road.Width) << 2);
+
+          y -= (20 - z++);
+          
         }
 
 
