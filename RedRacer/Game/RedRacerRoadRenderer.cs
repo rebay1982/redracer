@@ -52,9 +52,8 @@ namespace RedRacer.Game
             gfxDataOffset,
             Road.Width << 2);
 
-          // Calculate size of next track "slice" -- when to change colour.
-          // Could have gone with a solution that uses a modulo but this is a tad more
-          // flexible following some experimentation.
+          // This doesn't work well when we try to animate.  Will have to find
+          // alternative solution.
           if (++z == y)
           {
             z -= y--;
