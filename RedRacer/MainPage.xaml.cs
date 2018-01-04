@@ -48,7 +48,7 @@ namespace RedRacer
       while (!Quit)
       {
         LastFrameRenderTime = diagRenderMngr.TimedRender(null);
-        await Task.Delay(TimeSpan.FromMilliseconds(5));
+        await Task.Delay(TimeSpan.FromMilliseconds(15));
       }
     }
 
