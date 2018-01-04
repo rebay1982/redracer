@@ -37,32 +37,30 @@ namespace RedRacer.Game
         // Will need to dehardcode this stuff.
         int paletteIndex = 0;
         int z = 0;
-        int y = 480;
+        int y = 20;
 
 
-        while (y > 280)
+        // Draw line per line -- this will allow curving, hills and the whole nine yards
+        for (int i = 479; i > 279; --i)
         {
-          int gfxDataOffset = ((y - (20 - z)) * Road.Width) << 2;
+          int gfxDataOffset = (i * Road.Width) << 2;
 
           Buffer.BlockCopy(
-            RoadData[++paletteIndex & 0x01],
+            RoadData[paletteIndex & 0x01],
             gfxDataOffset,
             buffer,
             gfxDataOffset,
-            ((20 - z) * Road.Width) << 2);
+            Road.Width << 2);
 
-          y -= (20 - z++);
-          
+          // Calculate size of next track "slice" -- when to change colour.
+          // Could have gone with a solution that uses a modulo but this is a tad more
+          // flexible following some experimentation.
+          if (++z == y)
+          {
+            z -= y--;
+            ++paletteIndex;
+          }
         }
-
-
-        //// Render the road here.
-        //Buffer.BlockCopy(
-        //  Road.SpriteData,
-        //  0,
-        //  buffer,
-        //  0,
-        //  (Road.Width * Road.Height) << 2);
       }
     }
   }
