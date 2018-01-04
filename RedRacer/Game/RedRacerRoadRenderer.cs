@@ -39,7 +39,6 @@ namespace RedRacer.Game
       if (IsInitialized)
       {
         // Will need to dehardcode this stuff.
-        int paletteIndex = 0;
         int z = textureZ;
         int dz = 0;
         int ddz = 2;
@@ -56,16 +55,13 @@ namespace RedRacer.Game
           int gfxDataOffset = (ScreenY * Road.Width) << 2;
 
           Buffer.BlockCopy(
-            RoadData[paletteIndex],
+            // (z % 4096) > 2048 ? 1 : 0
+            RoadData[((z & 0x1FFF) & 0x800) >> 11],
             gfxDataOffset,
             buffer,
             gfxDataOffset,
             Road.Width << 2);
-
-
-          // Equiv to (z % 4096) > 2048 ? 1 : 0;
-          paletteIndex = ((z & 0x1FFF) & 0x800) >> 11;
-
+         
           dz += ddz;
           z += dz;
         }
