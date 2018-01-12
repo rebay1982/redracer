@@ -12,6 +12,9 @@ namespace RedRacer.Game
     int dTextureZ = 0;
     int ddTextureZ = 2;
 
+    // 200 = screen space reserved for drawing the road.
+    int[] zmap = new int[200];
+
     public RedRacerRoadRenderer() : base()
     {
       Init();
@@ -24,6 +27,8 @@ namespace RedRacer.Game
 
       RoadData[0] = Road.SpriteData;
       RoadData[1] = RoadDark.SpriteData;
+
+      InitZMap();
 
       // Nothing to initialize.
       IsInitialized = true;
@@ -38,33 +43,38 @@ namespace RedRacer.Game
     {
       if (IsInitialized)
       {
-        // Will need to dehardcode this stuff.
-        int z = textureZ;
-        int dz = 0;
-        int ddz = 2;
+        int zmapSize = zmap.Length + 279;
 
-        dTextureZ += ddTextureZ;
-        if (dTextureZ > 1024)
-          dTextureZ = 1024;
-
-        textureZ += dTextureZ;
-        
         // Draw line per line -- this will allow curving, hills and the whole nine yards
-        for (int ScreenY = 479; ScreenY > 279; --ScreenY)
+        for (int y = 280; y < 480; ++y)
         {
-          int gfxDataOffset = (ScreenY * Road.Width) << 2;
-
+          int gfxDataOffset = (y * Road.Width) << 2;
+          int z = zmap[y - 280];
           Buffer.BlockCopy(
-            // (z % 4096) > 2048 ? 1 : 0
-            RoadData[((z & 0x1FFF) & 0x800) >> 11],
+            RoadData[z & 0x01],
             gfxDataOffset,
             buffer,
             gfxDataOffset,
             Road.Width << 2);
-         
-          dz += ddz;
-          z += dz;
         }
+      }
+    }
+
+    private void InitZMap()
+    {
+      int YrH = 480 >> 1;
+      int Yw = -200;    // Negative because the road is at a negative Y in relation to the
+                         // camera.
+
+      for (int Ys = 280; Ys < 480; ++Ys)
+      {
+        zmap[Ys - 280] = (Yw << 3) / (Ys - YrH);
+      }
+
+      // Diagnostics
+      for (int y = 0; y < 200; ++y)
+      {
+        System.Diagnostics.Debug.Write("ZMap index: " + y + " is " + zmap[y] + "\n");
       }
     }
   }
