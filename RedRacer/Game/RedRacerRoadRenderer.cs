@@ -51,7 +51,7 @@ namespace RedRacer.Game
           int gfxDataOffset = (y * Road.Width) << 2;
           int z = zmap[y - 280];
           Buffer.BlockCopy(
-            RoadData[z & 0x01],
+            RoadData[(z / 50 ) & 0x01],
             gfxDataOffset,
             buffer,
             gfxDataOffset,
@@ -63,12 +63,12 @@ namespace RedRacer.Game
     private void InitZMap()
     {
       int YrH = 480 >> 1;
-      int Yw = -200;    // Negative because the road is at a negative Y in relation to the
-                         // camera.
+      int Yw = -400;    // Negative because the road is at a negative Y in relation to the
+                        // camera.
 
       for (int Ys = 280; Ys < 480; ++Ys)
       {
-        zmap[Ys - 280] = (Yw << 3) / (Ys - YrH);
+        zmap[Ys - 280] = (Yw * 100) / (Ys - YrH);
       }
 
       // Diagnostics
