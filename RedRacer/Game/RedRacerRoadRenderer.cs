@@ -41,7 +41,6 @@ namespace RedRacer.Game
 
     public override void RenderToFrameBuffer(byte[] buffer, int width, int height, IGameState gameState)
     {
-      
       if (IsInitialized)
       {
         textureZ += dTextureZ;
@@ -53,12 +52,12 @@ namespace RedRacer.Game
         int zmapSize = zmap.Length + 279;
 
         // Draw line per line -- this will allow curving, hills and the whole nine yards
-        for (int y = 280; y < 480; ++y)
+        for (int y = 479; y > 279; --y)
         {
           int gfxDataOffset = (y * Road.Width) << 2;
           int z = textureZ - zmap[y - 280];
           Buffer.BlockCopy(
-            RoadData[(z / 50 ) & 0x01],
+            RoadData[(z / 50) & 0x01],
             gfxDataOffset,
             buffer,
             gfxDataOffset,
