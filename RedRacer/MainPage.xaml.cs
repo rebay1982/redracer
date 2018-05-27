@@ -108,7 +108,13 @@ namespace RedRacer
       byte[] imgBytes = renderMngr.GetFrameBuffer();
       rendersw.Stop();
 
-      CanvasBitmap bitmap = CanvasBitmap.CreateFromBytes(sender.Device, imgBytes, 640, 480, Windows.Graphics.DirectX.DirectXPixelFormat.B8G8R8A8UIntNormalized);
+      CanvasBitmap bitmap = CanvasBitmap.CreateFromBytes(
+        sender.Device,
+        imgBytes,
+        640,
+        480,
+        Windows.Graphics.DirectX.DirectXPixelFormat.B8G8R8A8UIntNormalized);
+
       args.DrawingSession.DrawImage(bitmap, 0, 0);
 
       args.DrawingSession.DrawText("GetFrameBuffer time: " + rendersw.ElapsedMilliseconds.ToString(), 0, 0, Colors.White);
@@ -124,9 +130,11 @@ namespace RedRacer
     private async Task LoadResourcesAsync(Microsoft.Graphics.Canvas.ICanvasResourceCreator sender)
     {
       // Wait to load every needed sprite or else renderers break in their init (they look for the file in memory).
-      await spriteFactory.LoadSpriteFromFile("RedRacer.png");
-      await spriteFactory.LoadSpriteFromFile("Road.png");
-      await spriteFactory.LoadSpriteFromFile("RoadDark.png");
+      await spriteFactory.LoadAndCacheSpriteFromFile("RedRacer.png");
+      await spriteFactory.LoadAndCacheSpriteFromFile("Road.png");
+      await spriteFactory.LoadAndCacheSpriteFromFile("RoadDark.png");
+      await spriteFactory.LoadAndCacheSpriteFromFile("RoadWide.png");
+      await spriteFactory.LoadAndCacheSpriteFromFile("RoadWideDark.png");
 
       // TODO: Sloppy logic, fix this -- see above comment.
       initRenderers();

@@ -37,23 +37,17 @@ namespace RedRacer.Game
       return SpriteCache[fileName];
     }
 
-    public async Task LoadSpriteFromFile(string fileName)
+    public async Task LoadAndCacheSpriteFromFile(string fileName)
     {
       // Don't overwrite what's in the cache.
       if (!SpriteCache.ContainsKey(fileName))
       {
-
-        // Prep the output array and load the bitmap data into it.
-        byte[] bitmapPixels = new byte[(640 * 480) << 2];
-        
-        await RetrieveBitmap(fileName, bitmapPixels);
-
         // Cache the sprite.
-        SpriteCache.Add(fileName, new Sprite(640, 480, bitmapPixels));
+        SpriteCache.Add(fileName, await NewSpriteFromFile(fileName));
       }
     }
-
-    private async Task RetrieveBitmap(string fileName, byte[] dst)
+    
+    private async Task<Sprite> NewSpriteFromFile(string fileName)
     {
       StorageFile sf = await StorageFile.GetFileFromPathAsync(ASSET_PATH + fileName);
       
@@ -64,8 +58,8 @@ namespace RedRacer.Game
         // Scale image to appropriate size 
         BitmapTransform transform = new BitmapTransform()
         {
-          ScaledWidth = 640,
-          ScaledHeight = 480
+          ScaledWidth = decoder.PixelWidth,
+          ScaledHeight = decoder.PixelHeight
         };
         PixelDataProvider pixelData = await decoder.GetPixelDataAsync(
             BitmapPixelFormat.Bgra8, // WriteableBitmap uses BGRA format 
@@ -76,9 +70,7 @@ namespace RedRacer.Game
         );
 
         // An array containing the decoded image data, which could be modified before being displayed 
-        byte[] sourcePixels = pixelData.DetachPixelData();
-
-        System.Buffer.BlockCopy(sourcePixels, 0, dst, 0, sourcePixels.Length);
+        return new Sprite((int)decoder.PixelWidth, (int)decoder.PixelHeight, pixelData.DetachPixelData());
       }
     }
   }

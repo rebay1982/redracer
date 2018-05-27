@@ -24,7 +24,7 @@ namespace RedRacer.Game
       Height = height;
       SpriteData = new byte[dataSize];
 
-      Buffer.BlockCopy(spriteData, 0, SpriteData, 0, ((width * height) << 2));
+      Buffer.BlockCopy(spriteData, 0, SpriteData, 0, dataSize);
     }
   }
 }
