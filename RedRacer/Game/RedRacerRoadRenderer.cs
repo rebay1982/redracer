@@ -22,11 +22,14 @@ namespace RedRacer.Game
 
     protected override void Init()
     {
-      Road = SpriteFactory.GetInstance().GetSprite("Road.png");
-      RoadDark = SpriteFactory.GetInstance().GetSprite("RoadDark.png");
+      Road = SpriteFactory.GetInstance().GetSprite("RoadWide.png");
+      RoadDark = SpriteFactory.GetInstance().GetSprite("RoadWideDark.png");
 
-      RoadData[0] = Road.SpriteData;
-      RoadData[1] = RoadDark.SpriteData;
+      RoadData[0] = Road.GetCroppedSpriteData(640, 0, 640, 480);
+      RoadData[1] = RoadDark.GetCroppedSpriteData(640, 0, 640, 480);
+
+      //RoadData[0] = Road.SpriteData;
+      //RoadData[1] = RoadDark.SpriteData;
 
       InitZMap();
 
@@ -41,6 +44,7 @@ namespace RedRacer.Game
 
     public override void RenderToFrameBuffer(byte[] buffer, int width, int height, IGameState gameState)
     {
+      // Render only if initialized
       if (IsInitialized)
       {
         textureZ += dTextureZ;
@@ -54,14 +58,14 @@ namespace RedRacer.Game
         // Draw line per line -- this will allow curving, hills and the whole nine yards
         for (int y = 479; y > 279; --y)
         {
-          int gfxDataOffset = (y * Road.Width) << 2;
+          int gfxDataOffset = (y * width) << 2;
           int z = textureZ - zmap[y - 280];
           Buffer.BlockCopy(
             RoadData[(z / 50) & 0x01],
             gfxDataOffset,
             buffer,
             gfxDataOffset,
-            Road.Width << 2);
+            width << 2);
         }
       }
     }
