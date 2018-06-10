@@ -55,21 +55,19 @@ namespace RedRacer.Game
       if (height > this.Height)
         throw new UnsupportedSpriteCropException();
 
-
-
       int croppedDataSize = (height * width) << 2;
       byte[] croppedBytes = new byte[croppedDataSize];
 
       int spriteDataRowSize = this.Width << 2;
       int cropPosition = (posX << 2) + (posY * spriteDataRowSize);
 
-      for (int h = 0; h < height; ++h)
+      for (int i = 0; i < croppedDataSize; i += (width << 2))
       {
         Buffer.BlockCopy(
           this.SpriteData,
           cropPosition,
           croppedBytes,
-          (h * width) << 2,
+          i,
           width << 2);
 
         cropPosition += spriteDataRowSize;

@@ -131,8 +131,6 @@ namespace RedRacer
     {
       // Wait to load every needed sprite or else renderers break in their init (they look for the file in memory).
       await spriteFactory.LoadAndCacheSpriteFromFile("RedRacer.png");
-      await spriteFactory.LoadAndCacheSpriteFromFile("Road.png");
-      await spriteFactory.LoadAndCacheSpriteFromFile("RoadDark.png");
       await spriteFactory.LoadAndCacheSpriteFromFile("RoadWide.png");
       await spriteFactory.LoadAndCacheSpriteFromFile("RoadWideDark.png");
 

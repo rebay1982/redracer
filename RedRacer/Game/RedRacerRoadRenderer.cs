@@ -2,8 +2,15 @@
 
 namespace RedRacer.Game
 {
+
+  // ******************************
+  // TODO: Clearn up magic numbers.
+  // ******************************
   class RedRacerRoadRenderer : AbstractRenderer
   {
+    private const int RENDERING_WIDTH = 640;
+    private const int RENDERING_HEIGHT = 480;
+
     private Sprite Road;
     private Sprite RoadDark;
     byte[][] RoadData = new byte[2][];
@@ -25,8 +32,8 @@ namespace RedRacer.Game
       Road = SpriteFactory.GetInstance().GetSprite("RoadWide.png");
       RoadDark = SpriteFactory.GetInstance().GetSprite("RoadWideDark.png");
 
-      RoadData[0] = Road.GetCroppedSpriteData(640, 0, 640, 480);
-      RoadData[1] = RoadDark.GetCroppedSpriteData(640, 0, 640, 480);
+      RoadData[0] = Road.GetCroppedSpriteData(640, 0, RENDERING_WIDTH, RENDERING_HEIGHT);
+      RoadData[1] = RoadDark.GetCroppedSpriteData(640, 0, RENDERING_WIDTH, RENDERING_HEIGHT);
 
       //RoadData[0] = Road.SpriteData;
       //RoadData[1] = RoadDark.SpriteData;
